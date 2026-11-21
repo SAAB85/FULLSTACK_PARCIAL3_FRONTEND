@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext.jsx'
 
 const CREDENCIALES = [
-  { rol: 'ADMIN', usuario: 'admin', clave: 'admin123', detalle: 'Todo: productos y usuarios' },
-  { rol: 'VENDEDOR', usuario: 'vendedor', clave: 'vendedor123', detalle: 'Crea y edita productos' },
-  { rol: 'CLIENTE', usuario: 'cliente', clave: 'cliente123', detalle: 'Solo consulta' },
+  { rol: 'ADMIN', usuario: 'admin', clave: 'admin123', detalle: 'Todo: catálogo, categorías, boletas y usuarios' },
+  { rol: 'VENDEDOR', usuario: 'vendedor', clave: 'vendedor123', detalle: 'Consulta productos y boletas' },
+  { rol: 'CLIENTE', usuario: 'cliente', clave: 'cliente123', detalle: 'Tienda: consulta y compra' },
 ]
 
 export default function Inicio() {
@@ -16,8 +16,8 @@ export default function Inicio() {
         <span className="badge text-bg-dark mb-3">DSY1104 · Evaluación Parcial 3</span>
         <h1 className="display-6 fw-bold mb-2">Integración REST con JWT, roles y sesión</h1>
         <p className="lead mb-4">
-          Esqueleto del proyecto: API Spring Boot protegida con tokens y un frontend React que
-          conserva la sesión y restringe las vistas según el rol.
+          API Spring Boot versionada con el modelo de tienda (categorías, productos y boletas)
+          y un frontend React que conserva la sesión y restringe las vistas según el rol.
         </p>
         <div className="d-flex gap-2 flex-wrap">
           <Link className="btn btn-brand" to={autenticado ? '/productos' : '/login'}>
@@ -34,7 +34,7 @@ export default function Inicio() {
           <div className="info-card h-100">
             <span className="info-kicker">Backend</span>
             <h2 className="h5">Spring Boot 4</h2>
-            <p className="mb-1">API REST en <code>:8080</code> con Spring Security, JPA y H2.</p>
+            <p className="mb-1">API REST en <code>:8080/api/v1</code> con Spring Security, JPA y H2.</p>
             <p className="small text-body-secondary mb-0">JWT firmado con HS256 y roles ADMIN, VENDEDOR y CLIENTE.</p>
           </div>
         </div>
@@ -50,7 +50,7 @@ export default function Inicio() {
           <div className="info-card h-100">
             <span className="info-kicker">Permisos</span>
             <h2 className="h5">Tres niveles</h2>
-            <p className="mb-1">La API y la interfaz aplican las mismas reglas.</p>
+            <p className="mb-1">ADMIN administra todo; VENDEDOR consulta; CLIENTE compra.</p>
             <p className="small text-body-secondary mb-0">El backend siempre valida el token; el frontend solo oculta acciones.</p>
           </div>
         </div>

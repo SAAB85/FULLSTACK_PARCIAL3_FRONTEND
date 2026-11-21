@@ -6,15 +6,16 @@ const FORMULARIO_VACIO = {
   codigo: '',
   nombre: '',
   descripcion: '',
-  categoria: '',
+  categoriaId: '',
   precio: '',
   stock: '',
 }
 
 export default function Productos() {
   const { rol } = useAuth()
-  const puedeEditar = rol === 'ADMIN' || rol === 'VENDEDOR'
+  const puedeGestionar = rol === 'ADMIN'
   const [productos, setProductos] = useState([])
+  const [categorias, setCategorias] = useState([])
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
   const [formulario, setFormulario] = useState(null)
@@ -24,8 +25,12 @@ export default function Productos() {
     setCargando(true)
     setError('')
     try {
-      const { data } = await api.get('/productos')
-      setProductos(data)
+      const [{ data: productosData }, { data: categoriasData }] = await Promise.all([
+        api.get('/productos'),
+        api.get('/categorias'),
+      ])
+      setProductos(productosData)
+      setCategorias(categoriasData)
     } catch (excepcion) {
       setError(excepcion.response?.data?.error ?? 'No se pudo cargar el catálogo')
     } finally {
@@ -47,7 +52,7 @@ export default function Productos() {
       codigo: producto.codigo,
       nombre: producto.nombre,
       descripcion: producto.descripcion ?? '',
-      categoria: producto.categoria,
+      categoriaId: String(producto.categoriaId),
       precio: String(producto.precio),
       stock: String(producto.stock),
     })
@@ -65,7 +70,7 @@ export default function Productos() {
       codigo: formulario.codigo.trim(),
       nombre: formulario.nombre.trim(),
       descripcion: formulario.descripcion.trim(),
-      categoria: formulario.categoria.trim(),
+      categoriaId: Number(formulario.categoriaId),
       precio: Number(formulario.precio),
       stock: Number(formulario.stock),
     }
@@ -100,9 +105,9 @@ export default function Productos() {
       <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
         <div>
           <h1 className="h3 mb-1">Productos</h1>
-          <p className="text-body-secondary mb-0">Catálogo protegido por token; las acciones dependen del rol.</p>
+          <p className="text-body-secondary mb-0">Catálogo protegido por token; solo ADMIN administra productos y categorías.</p>
         </div>
-        {puedeEditar && (
+        {puedeGestionar && (
           <button className="btn btn-brand" type="button" onClick={abrirNuevo}>
             Nuevo producto
           </button>
@@ -124,8 +129,13 @@ export default function Productos() {
                 onChange={(e) => cambiar('nombre', e.target.value)} required maxLength={120} />
             </div>
             <div className="col-md-4">
-              <input className="form-control" placeholder="Categoría" value={formulario.categoria}
-                onChange={(e) => cambiar('categoria', e.target.value)} required maxLength={60} />
+              <select className="form-select" value={formulario.categoriaId}
+                onChange={(e) => cambiar('categoriaId', e.target.value)} required>
+                <option value="">Categoría…</option>
+                {categorias.map((categoria) => (
+                  <option key={categoria.id} value={categoria.id}>{categoria.nombre}</option>
+                ))}
+              </select>
             </div>
             <div className="col-md-3">
               <input className="form-control" placeholder="Precio" type="number" min="0" step="1"
@@ -166,7 +176,7 @@ export default function Productos() {
                   <th>Categoría</th>
                   <th className="text-end">Precio</th>
                   <th className="text-end">Stock</th>
-                  {puedeEditar && <th className="text-end">Acciones</th>}
+                  {puedeGestionar && <th className="text-end">Acciones</th>}
                 </tr>
               </thead>
               <tbody>
@@ -182,18 +192,16 @@ export default function Productos() {
                     <td>{producto.categoria}</td>
                     <td className="text-end">${Number(producto.precio).toLocaleString('es-CL')}</td>
                     <td className="text-end">{producto.stock}</td>
-                    {puedeEditar && (
+                    {puedeGestionar && (
                       <td className="text-end text-nowrap">
                         <button className="btn btn-outline-secondary btn-sm me-1" type="button"
                           onClick={() => abrirEdicion(producto)}>
                           Editar
                         </button>
-                        {rol === 'ADMIN' && (
-                          <button className="btn btn-outline-danger btn-sm" type="button"
-                            onClick={() => eliminar(producto)}>
-                            Eliminar
-                          </button>
-                        )}
+                        <button className="btn btn-outline-danger btn-sm" type="button"
+                          onClick={() => eliminar(producto)}>
+                          Eliminar
+                        </button>
                       </td>
                     )}
                   </tr>

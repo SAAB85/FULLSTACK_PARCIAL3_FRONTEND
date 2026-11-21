@@ -1,7 +1,7 @@
 # Parcial 3 — Frontend (Full Stack II)
 
 Aplicación **React** de la **Evaluación Parcial 3** de DSY1104 *Desarrollo Full Stack II* (Duoc UC).
-Consume la API REST del backend, conserva la sesión con JWT y restringe las vistas según el rol.
+Consume la API REST versionada del backend, conserva la sesión con JWT y restringe las vistas según el rol.
 
 > Backend del proyecto: [SAAB85/FULLSTACK_PARCIAL3_BACKEND](https://github.com/SAAB85/FULLSTACK_PARCIAL3_BACKEND)
 
@@ -26,15 +26,16 @@ npm run dev
 - Aplicación: <http://localhost:5173>
 
 El backend debe estar corriendo en <http://localhost:8080>. Si la API está en otra URL,
-cambia `VITE_API_URL` en `.env`.
+cambia `VITE_API_URL` en `.env`. La URL debe incluir la versión, por ejemplo
+`http://localhost:8080/api/v1`.
 
 ## Usuarios de prueba
 
 | Rol | Usuario | Contraseña | Acceso |
 | --- | --- | --- | --- |
-| ADMIN | `admin` | `admin123` | Productos y usuarios |
-| VENDEDOR | `vendedor` | `vendedor123` | Productos (sin eliminar) |
-| CLIENTE | `cliente` | `cliente123` | Solo consulta productos |
+| ADMIN | `admin` | `admin123` | Catálogo, categorías, boletas y usuarios |
+| VENDEDOR | `vendedor` | `vendedor123` | Consulta productos y boletas |
+| CLIENTE | `cliente` | `cliente123` | Tienda: consulta productos y crea boletas |
 
 ## Rutas
 
@@ -42,13 +43,13 @@ cambia `VITE_API_URL` en `.env`.
 | --- | --- | --- |
 | `/login` | Pública | Inicio de sesión |
 | `/` | Autenticado | Inicio |
-| `/productos` | Autenticado | CRUD de productos |
+| `/productos` | Autenticado | Catálogo; solo ADMIN puede crear, editar o eliminar |
 | `/usuarios` | Solo ADMIN | Listado de usuarios |
 | `/no-autorizado` | — | Aviso de permisos insuficientes |
 
 ## Cómo funciona la sesión
 
-1. El login llama a `POST /api/auth/login`.
+1. El login llama a `POST /api/v1/auth/login`.
 2. La respuesta (token + datos del usuario) se guarda en `localStorage` con la clave `ep3.sesion`.
 3. Un interceptor de Axios adjunta `Authorization: Bearer <token>` en cada petición.
 4. `RutaProtegida` y `RutaConRol` bloquean el acceso según la sesión y el rol.
