@@ -24,7 +24,13 @@ export default function Navbar() {
         <div className="d-flex align-items-center gap-3 flex-wrap">
           {autenticado ? (
             <>
-              <NavLink className={enlaceNav} to="/productos">Productos</NavLink>
+              {(rol === 'ADMIN' || rol === 'CLIENTE') && (
+                <NavLink className={enlaceNav} to="/tienda">Tienda</NavLink>
+              )}
+              {(rol === 'ADMIN' || rol === 'VENDEDOR') && (
+                <NavLink className={enlaceNav} to="/productos">Productos</NavLink>
+              )}
+              <NavLink className={enlaceNav} to="/boletas">Boletas</NavLink>
               {rol === 'ADMIN' && <NavLink className={enlaceNav} to="/usuarios">Usuarios</NavLink>}
               <span className="badge text-bg-warning">{rol}</span>
               <span className="navbar-text small d-none d-md-inline">{sesion?.nombre}</span>

@@ -110,3 +110,7 @@ body {
 code {
   color: var(--ep3-brand-strong);
 }
+
+.cantidad-input {
+  max-width: 90px;
+}

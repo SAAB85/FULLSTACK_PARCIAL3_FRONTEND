@@ -8,7 +8,13 @@ const CREDENCIALES = [
 ]
 
 export default function Inicio() {
-  const { autenticado } = useAuth()
+  const { autenticado, rol } = useAuth()
+  const destino = autenticado
+    ? (rol === 'CLIENTE' ? '/tienda' : '/productos')
+    : '/login'
+  const etiqueta = autenticado
+    ? (rol === 'CLIENTE' ? 'Ir a la tienda' : 'Ir a productos')
+    : 'Iniciar sesión'
 
   return (
     <div className="py-3">
@@ -20,9 +26,14 @@ export default function Inicio() {
           y un frontend React que conserva la sesión y restringe las vistas según el rol.
         </p>
         <div className="d-flex gap-2 flex-wrap">
-          <Link className="btn btn-brand" to={autenticado ? '/productos' : '/login'}>
-            {autenticado ? 'Ir a productos' : 'Iniciar sesión'}
+          <Link className="btn btn-brand" to={destino}>
+            {etiqueta}
           </Link>
+          {autenticado && (
+            <Link className="btn btn-outline-secondary" to="/boletas">
+              Ver boletas
+            </Link>
+          )}
           <a className="btn btn-outline-secondary" href="http://localhost:8080/swagger-ui/index.html" target="_blank" rel="noreferrer">
             Abrir Swagger
           </a>

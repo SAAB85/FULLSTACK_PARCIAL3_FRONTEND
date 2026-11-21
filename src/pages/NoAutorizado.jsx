@@ -13,7 +13,9 @@ export default function NoAutorizado() {
           <p className="text-body-secondary mb-4">
             Tu rol actual {rol ? <code>{rol}</code> : 'no definido'} no tiene permiso para esta sección.
           </p>
-          <Link className="btn btn-brand" to="/productos">Volver a productos</Link>
+          <Link className="btn btn-brand" to={rol === 'CLIENTE' ? '/tienda' : '/productos'}>
+            Volver a {rol === 'CLIENTE' ? 'la tienda' : 'productos'}
+          </Link>
         </div>
       </div>
     </div>

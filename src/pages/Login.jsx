@@ -9,7 +9,7 @@ const ACCESOS = [
 ]
 
 export default function Login() {
-  const { iniciarSesion, cargando, autenticado } = useAuth()
+  const { iniciarSesion, cargando, autenticado, rol } = useAuth()
   const navegar = useNavigate()
   const ubicacion = useLocation()
   const [username, setUsername] = useState('')
@@ -17,15 +17,16 @@ export default function Login() {
   const [error, setError] = useState('')
 
   if (autenticado) {
-    return <Navigate to="/productos" replace />
+    return <Navigate to={rol === 'CLIENTE' ? '/tienda' : '/productos'} replace />
   }
 
   async function enviar(evento) {
     evento.preventDefault()
     setError('')
     try {
-      await iniciarSesion(username.trim(), password)
-      navegar(ubicacion.state?.desde ?? '/productos', { replace: true })
+      const sesion = await iniciarSesion(username.trim(), password)
+      const destino = sesion.rol === 'CLIENTE' ? '/tienda' : '/productos'
+      navegar(ubicacion.state?.desde ?? destino, { replace: true })
     } catch (excepcion) {
       setError(excepcion.response?.data?.error ?? 'No se pudo conectar con la API')
     }
