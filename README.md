@@ -47,6 +47,7 @@ cambia `VITE_API_URL` en `.env`. La URL debe incluir la versión, por ejemplo
 | `/productos` | ADMIN y VENDEDOR | Catálogo; solo ADMIN puede crear, editar o eliminar |
 | `/boletas` | Autenticado | CLIENTE ve las propias; ADMIN y VENDEDOR ven todas |
 | `/boletas/:id` | Autenticado | Detalle; ADMIN puede pagar o anular |
+| `/categorias` | Solo ADMIN | Crear, editar y eliminar categorías |
 | `/usuarios` | Solo ADMIN | Listado de usuarios |
 | `/no-autorizado` | — | Aviso de permisos insuficientes |
 

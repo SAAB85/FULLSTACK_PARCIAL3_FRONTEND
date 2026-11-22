@@ -4,6 +4,7 @@ import { RutaConRol, RutaProtegida } from './auth/ProtectedRoute.jsx'
 import Inicio from './pages/Inicio.jsx'
 import Login from './pages/Login.jsx'
 import Productos from './pages/Productos.jsx'
+import Categorias from './pages/Categorias.jsx'
 import Tienda from './pages/Tienda.jsx'
 import Boletas from './pages/Boletas.jsx'
 import BoletaDetalle from './pages/BoletaDetalle.jsx'
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="boletas/:id" element={<BoletaDetalle />} />
 
           <Route element={<RutaConRol roles={['ADMIN']} />}>
+            <Route path="categorias" element={<Categorias />} />
             <Route path="usuarios" element={<AdminUsuarios />} />
           </Route>
         </Route>

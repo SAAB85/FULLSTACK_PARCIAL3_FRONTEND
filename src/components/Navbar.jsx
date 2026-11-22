@@ -30,6 +30,7 @@ export default function Navbar() {
               {(rol === 'ADMIN' || rol === 'VENDEDOR') && (
                 <NavLink className={enlaceNav} to="/productos">Productos</NavLink>
               )}
+              {rol === 'ADMIN' && <NavLink className={enlaceNav} to="/categorias">Categorías</NavLink>}
               <NavLink className={enlaceNav} to="/boletas">Boletas</NavLink>
               {rol === 'ADMIN' && <NavLink className={enlaceNav} to="/usuarios">Usuarios</NavLink>}
               <span className="badge text-bg-warning">{rol}</span>
