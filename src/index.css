@@ -41,6 +41,15 @@ body {
   letter-spacing: 0.02em;
 }
 
+.app-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.app-navbar .nav-link:hover,
+.app-navbar .nav-link.active {
+  color: #fff;
+}
+
 .brand-dot {
   color: var(--ep3-accent);
 }
