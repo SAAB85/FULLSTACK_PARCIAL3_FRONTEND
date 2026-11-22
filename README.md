@@ -66,6 +66,14 @@ cambia `VITE_API_URL` en `.env`. La URL debe incluir la versión, por ejemplo
 4. `RutaProtegida` y `RutaConRol` bloquean el acceso según la sesión y el rol.
 5. Si la API responde `401`, se borra la sesión y se redirige al login.
 
+## Documentación
+
+La documentación completa de la EP3 está en [`docs/`](docs/README.md):
+
+- ERS y Anexos 2, 3 y 4, en PDF y formato editable.
+- Presentación individual (PPTX + PDF).
+- Diagramas del modelo de datos, arquitectura y casos de uso.
+
 ## Estructura
 
 ```
